@@ -1,0 +1,9 @@
+C:\Users\nn marina\source\repos\Tutorial\Theater\Theater\bin\Debug\Theater.dacpac
+C:\Users\nn marina\source\repos\Tutorial\Theater\Theater\bin\Debug\Theater.dll
+C:\Users\nn marina\source\repos\Tutorial\Theater\Theater\bin\Debug\Theater.pdb
+C:\Users\nn marina\source\repos\Tutorial\Theater\Theater\obj\Debug\Model.xml
+C:\Users\nn marina\source\repos\Tutorial\Theater\Theater\obj\Debug\refactor.xml
+C:\Users\nn marina\source\repos\Tutorial\Theater\Theater\obj\Debug\postdeploy.sql
+C:\Users\nn marina\source\repos\Tutorial\Theater\Theater\obj\Debug\predeploy.sql
+C:\Users\nn marina\source\repos\Tutorial\Theater\Theater\obj\Debug\Theater.dll
+C:\Users\nn marina\source\repos\Tutorial\Theater\Theater\obj\Debug\Theater.pdb
