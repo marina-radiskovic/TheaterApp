@@ -10,9 +10,9 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 
-DELETE FROM Actors;
-INSERT INTO [dbo].[Actors] (FirstName, LastName) VALUES ('Petar', 'Jankovic');
-INSERT INTO [dbo].[Actors] (FirstName, LastName) VALUES ('Jovan', 'Gavrilovic');
-INSERT INTO [dbo].[Actors] (FirstName, LastName) VALUES ('Marija', 'Petrovic');
-INSERT INTO [dbo].[Actors] (FirstName, LastName) VALUES ('Nikolina', 'Iliskovic');
-INSERT INTO [dbo].[Actors] (FirstName, LastName) VALUES ('Lazar', 'Lukic');
+DELETE FROM Actor;
+INSERT INTO [dbo].[Actor] (Id, FirstName, LastName) VALUES (1, 'Petar', 'Jankovic');
+INSERT INTO [dbo].[Actor] (Id, FirstName, LastName) VALUES (2, 'Jovan', 'Gavrilovic');
+INSERT INTO [dbo].[Actor] (Id, FirstName, LastName) VALUES (3, 'Marija', 'Petrovic');
+INSERT INTO [dbo].[Actor] (Id, FirstName, LastName) VALUES (4, 'Nikolina', 'Iliskovic');
+INSERT INTO [dbo].[Actor] (Id, FirstName, LastName) VALUES (5, 'Lazar', 'Lukic');

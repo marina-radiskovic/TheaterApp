@@ -61,11 +61,18 @@
     <Folder Include="Scripts" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Tables\Plays.sql" />
-    <Build Include="Tables\Actors.sql" />
-    <Build Include="Tables\ActorsPlays.sql" />
+    <Build Include="Tables\Play.sql" />
+    <Build Include="Tables\Actor.sql" />
+    <Build Include="Tables\PlayActor.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Theater.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Scripts\AddTheActors.sql" />
+    <None Include="Theater.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
   </ItemGroup>
 </Project>

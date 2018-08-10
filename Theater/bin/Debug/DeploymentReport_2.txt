@@ -1,0 +1,19 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Create
+       [dbo].[Actor] (Table)
+       [dbo].[Play] (Table)
+       [dbo].[PlayActor] (Table)
+       [dbo].[FK_ActorPlay_Play] (Foreign Key)
+       [dbo].[FK_ActorPlay_Actor] (Foreign Key)
+
+** Supporting actions
