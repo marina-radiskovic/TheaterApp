@@ -75,7 +75,7 @@ namespace Theater.UnitTests.Repositories
             dummyPlay.ScheduledTime = DateTime.Today;
             dummyPlay.PlayActors = new List<PlayActor>();
             dummyPlay.Image = "gghjkjbj";
-
+            //TODO: insert and save here not in unit test
             return dummyPlay;
         }
 

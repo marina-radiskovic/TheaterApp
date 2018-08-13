@@ -45,6 +45,7 @@ namespace Theater.UnitTests.DAL
             Play play = _testPlayRepository.GetDummyPlay();
 
             // Act
+            //TODO: this insert should be inside GetDummyPlay()
             _testPlayRepository.Insert(play);
             _testPlayRepository.DeleteById(play.Id);
 
