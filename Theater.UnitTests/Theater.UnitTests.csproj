@@ -67,6 +67,10 @@
       <Project>{b4a4470f-b113-4df9-bf98-9f021ab6396c}</Project>
       <Name>Theater.DAL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Theater.Service\Theater.Service.csproj">
+      <Project>{876d61c2-ecf2-4584-a172-1e59885086f6}</Project>
+      <Name>Theater.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

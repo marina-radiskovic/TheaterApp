@@ -26,7 +26,6 @@ namespace Theater.UnitTests.DAL
             var play = _testPlayRepository.GetDummyPlay();
 
             // Act
-            _testPlayRepository.Insert(play);
             _playIds.Add(play.Id);
             var actual = _testPlayRepository.GetById(play.Id);
 
@@ -34,7 +33,7 @@ namespace Theater.UnitTests.DAL
             Assert.NotNull(actual);
             Assert.AreEqual(play.Description, actual.Description);
             Assert.AreEqual(play.Title, actual.Title);
-            Assert.AreEqual(play.Image, actual.Image);
+            Assert.AreEqual(play.ImagePath, actual.ImagePath);
             Assert.AreEqual(play.ScheduledTime, actual.ScheduledTime);
         }
 
@@ -45,7 +44,6 @@ namespace Theater.UnitTests.DAL
             Play play = _testPlayRepository.GetDummyPlay();
 
             // Act
-            _testPlayRepository.Insert(play);
             _testPlayRepository.DeleteById(play.Id);
 
             // Assert
@@ -60,7 +58,6 @@ namespace Theater.UnitTests.DAL
              Play play = _testPlayRepository.GetDummyPlay();
              
              // Act
-             _testPlayRepository.Insert(play);
              _playIds.Add(play.Id);
              play.Title = "UPDATED Title";
              _testPlayRepository.Update(play);

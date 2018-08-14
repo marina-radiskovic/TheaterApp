@@ -59,11 +59,13 @@
     <Folder Include="Properties" />
     <Folder Include="Tables" />
     <Folder Include="Scripts" />
+    <Folder Include="Views" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Play.sql" />
     <Build Include="Tables\Actor.sql" />
     <Build Include="Tables\PlayActor.sql" />
+    <Build Include="Views\PlayView.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Theater.refactorlog" />

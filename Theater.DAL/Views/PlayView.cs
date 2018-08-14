@@ -1,23 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace Theater.DAL.Entities
-
+namespace Theater.DAL.Views
 {
-    [Table("Play", Schema = "dbo")]
-    public class Play
+    [Table("PlayView", Schema = "dbo")]
+    public class PlayView
     {
         public int Id { get; set; }
         public string Title { get; set; }
+
+        [DisplayName("Photo")]
         public string ImagePath { get; set; }
         public string Description { get; set; }
-        [DataType(DataType.DateTime)]
-        public DateTime? ScheduledTime { get; set; }
 
-        public virtual IList<Actor> Actors { get; set; }
+        [DisplayName("Scheduled time")]
+        public DateTime? ScheduledTime { get; set; }
+        public string Actors { get; set; }
+
+        //public virtual IList<PlayActor> PlayActors { get; set; }
     }
 }

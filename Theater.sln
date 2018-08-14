@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Theater.UnitTests", "Theate
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Theater.DAL", "Theater.DAL\Theater.DAL.csproj", "{B4A4470F-B113-4DF9-BF98-9F021AB6396C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Theater.Service", "Theater.Service\Theater.Service.csproj", "{876D61C2-ECF2-4584-A172-1E59885086F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Theater.MVC", "Theater.MVC\Theater.MVC.csproj", "{7310876A-C4BC-49BE-BF00-491A036DFA45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +33,14 @@ Global
 		{B4A4470F-B113-4DF9-BF98-9F021AB6396C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4A4470F-B113-4DF9-BF98-9F021AB6396C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4A4470F-B113-4DF9-BF98-9F021AB6396C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{876D61C2-ECF2-4584-A172-1E59885086F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{876D61C2-ECF2-4584-A172-1E59885086F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{876D61C2-ECF2-4584-A172-1E59885086F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{876D61C2-ECF2-4584-A172-1E59885086F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7310876A-C4BC-49BE-BF00-491A036DFA45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7310876A-C4BC-49BE-BF00-491A036DFA45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7310876A-C4BC-49BE-BF00-491A036DFA45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7310876A-C4BC-49BE-BF00-491A036DFA45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

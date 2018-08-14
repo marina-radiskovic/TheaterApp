@@ -2,22 +2,24 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
+using System.Linq;
+using System.Web;
 
-namespace Theater.DAL.Entities
-
+namespace Theater.MVC.Models
 {
-    [Table("Play", Schema = "dbo")]
-    public class Play
+    public class PlayViewModel
     {
         public int Id { get; set; }
         public string Title { get; set; }
+
+        [DisplayName("Image")]
         public string ImagePath { get; set; }
         public string Description { get; set; }
+
+        [DisplayName("Scheduled time")]
         [DataType(DataType.DateTime)]
         public DateTime? ScheduledTime { get; set; }
 
-        public virtual IList<Actor> Actors { get; set; }
+        //public virtual IList<PlayActor> PlayActors { get; set; }
     }
 }
