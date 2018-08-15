@@ -17,7 +17,7 @@ namespace Theater.MVC.Models
         public string Description { get; set; }
 
         [DisplayName("Scheduled time")]
-        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:g}")]
         public DateTime? ScheduledTime { get; set; }
 
         //public virtual IList<PlayActor> PlayActors { get; set; }

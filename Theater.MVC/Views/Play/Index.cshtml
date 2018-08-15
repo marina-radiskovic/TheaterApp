@@ -32,19 +32,20 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Title)
+            @Html.DisplayFor(ModelItem => item.Title)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ImagePath)
+            @Html.DisplayFor(ModelItem => item.ImagePath)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Description)
+            @Html.DisplayFor(ModelItem => item.Description)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ScheduledTime)
+            @*@Html.DisplayFor(ModelItem => item.ScheduledTime)*@
+            @Convert.ToString(string.Format("{0:g}", item.ScheduledTime))
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Actors)
+            @Html.DisplayFor(ModelItem => item.Actors)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
