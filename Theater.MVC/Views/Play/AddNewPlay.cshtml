@@ -1,12 +1,12 @@
 ﻿@model Theater.MVC.Models.PlayViewModel
 
 @{
-    ViewBag.Title = "AddNewPlay";
+    ViewBag.Title = "Add new play";
 }
 
 <h2>AddNewPlay</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("AddNewPlay", "Play", FormMethod.Post, new { enctype = "multipart/form-data" })) 
 {
     @Html.AntiForgeryToken()
     
@@ -25,8 +25,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ImagePath, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ImagePath, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ImagePath, "", new { @class = "text-danger" })
+                @Html.TextBox("file", null, htmlAttributes: new { Type = "file" })
+                @Html.ValidationMessageFor(model => model.File, null, new { @class = "text-danger" })
             </div>
         </div>
 

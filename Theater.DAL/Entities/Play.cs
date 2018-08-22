@@ -15,6 +15,8 @@ namespace Theater.DAL.Entities
         public string Title { get; set; }
         public string ImagePath { get; set; }
         public string Description { get; set; }
+        public string ImageVirtualPath { get; set; }
+        public string ImageType { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:g}")]

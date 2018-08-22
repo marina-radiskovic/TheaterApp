@@ -59,7 +59,7 @@ namespace Theater.Service.PlayService
             using (var _unitOfWork = UnitOfWork.GetUnitOfWork())
             {
                 var play = _unitOfWork.context.PlayViews;
-                return play.ToList();
+                return play.OrderByDescending(x => x.Id).ToList();
             }
         }
     }

@@ -17,6 +17,8 @@ namespace Theater.DAL.Views
         [DisplayName("Photo")]
         public string ImagePath { get; set; }
         public string Description { get; set; }
+        public string ImageVirtualPath { get; set; }
+        public string ImageType { get; set; }
 
         [DisplayName("Scheduled time")]
         public DateTime? ScheduledTime { get; set; }
