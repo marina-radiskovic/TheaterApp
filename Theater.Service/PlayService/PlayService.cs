@@ -46,11 +46,11 @@ namespace Theater.Service.PlayService
             }
         }
 
-        public Play GetPlay(Play play)
+        public Play GetPlay(int id)
         {
             using (var _unitOfWork = UnitOfWork.GetUnitOfWork())
             {
-                return _unitOfWork.PlayRepository.GetById(play.Id);
+                return _unitOfWork.PlayRepository.GetById(id);
             }
         }
 

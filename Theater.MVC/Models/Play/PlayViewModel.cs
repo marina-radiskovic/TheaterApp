@@ -30,9 +30,7 @@ namespace Theater.MVC.Models
 
         [Required(ErrorMessage = "Please upload photo")]
         public HttpPostedFileBase File { get; set; }
-        public string ActorsString { get; set; }
 
-        public virtual IList<Actor> Actors { get; set; }
-
+        public IList<Actor> PlayActors { get; set; }
     }
 }

@@ -17,9 +17,6 @@ namespace Theater.DAL.Entities
         public string Description { get; set; }
         public string ImageVirtualPath { get; set; }
         public string ImageType { get; set; }
-
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:g}")]
         public DateTime? ScheduledTime { get; set; }
 
         public virtual IList<Actor> Actors { get; set; }

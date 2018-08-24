@@ -16,7 +16,7 @@ namespace Theater.UnitTests.DAL
         public PlayTest()
         {
              _playIds = new List<int>();
-            _testPlayRepository = new TestPlayRepository();
+             _testPlayRepository = new TestPlayRepository();
         }
 
         [Test]

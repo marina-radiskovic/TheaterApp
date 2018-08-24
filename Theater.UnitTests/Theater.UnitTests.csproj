@@ -54,9 +54,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DAL\ActorTest.cs" />
     <Compile Include="DAL\PlayTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\TestPlayRepository.cs" />
+    <Compile Include="ServiceLayer\PlayServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

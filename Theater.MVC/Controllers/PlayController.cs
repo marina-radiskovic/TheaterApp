@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PagedList;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,7 +7,9 @@ using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using Theater.DAL.Entities;
+using Theater.DAL.Views;
 using Theater.MVC.Models;
+using Theater.Service.ActorService;
 using Theater.Service.PlayService;
 
 namespace Theater.MVC.Controllers
@@ -14,23 +17,29 @@ namespace Theater.MVC.Controllers
     public class PlayController : Controller
     {
         private readonly PlayService _playService = new PlayService();
+        private readonly ActorService _actorService = new ActorService();
 
         // GET: Play/Index
-        public ActionResult Index()
+        public ActionResult Index(int? pageNumber)
         {
-            var model = new PlaysListViewModel();
-            model.PlayList = _playService.GetAllPlays();
-            foreach(var playView in model.PlayList)
+            var playViewList = new PlaysListViewModel();
+            playViewList.PlayList = _playService.GetAllPlays();
+            foreach (var playView in playViewList.PlayList)
             {
                 playView.ImageVirtualPath = string.Format("{0}{1}", WebConfigurationManager.AppSettings["appUrl"].ToString(), playView.ImageVirtualPath.ToString());
             }
-            return View(model);
+
+            //PagedList<PlayView> model = new PagedList<PlayView>(playViewList.PlayList, pageNumber, pageSize);
+            int page = (pageNumber ?? 1);
+            return View(playViewList.PlayList.ToPagedList(page, 3));
         }
 
         // GET: Play/AddNewPlay
         public ActionResult AddNewPlay()
         {
-            return View();
+            var playViewModel = new PlayViewModel();
+            playViewModel.Actors = _actorService.GetAllActors();
+            return View(playViewModel);
         }
 
         [HttpPost]

@@ -1,4 +1,5 @@
-﻿@model Theater.MVC.Models.PlaysListViewModel
+﻿@model PagedList.IPagedList<Theater.DAL.Views.PlayView>
+@using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Index";
@@ -9,55 +10,57 @@
 <p>
     @Html.ActionLink("Add new play", "AddNewPlay")
 </p>
-@if (Model != null && Model.PlayList.Count() > 0)
+@if (Model != null && Model.Count() > 0)
 {
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.PlayList.First().Title)
+                @Html.DisplayNameFor(model => Model.First().Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PlayList.First().ImagePath)
+                @Html.DisplayNameFor(model => Model.First().ImagePath)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PlayList.First().Description)
+                @Html.DisplayNameFor(model => Model.First().Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PlayList.First().ScheduledTime)
+                @Html.DisplayNameFor(model => Model.First().ScheduledTime)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PlayList.First().Actors)
+                @Html.DisplayNameFor(model => Model.First().Actors)
             </th>
             <th></th>
         </tr>
 
-        @for (int i = 0; i < Model.PlayList.Count(); i++)
+        @for (int i = 0; i < Model.Count(); i++)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(m => m.PlayList[i].Title)
+                    @Html.DisplayFor(m => m[i].Title)
                 </td>
                 <td>
                     @*@Html.DisplayFor(ModelItem => item.ImagePath)*@
-                    <img src="@Html.DisplayFor(m => m.PlayList[i].ImageVirtualPath)" alt="Display image..." style="width:200px; height: 200px">
+                    <img src="@Html.DisplayFor(m => m[i].ImageVirtualPath)" alt="Display image..." style="width:200px; height: 200px">
                 </td>
                 <td>
-                    @Html.DisplayFor(m => m.PlayList[i].Description)
+                    @Html.DisplayFor(m => m[i].Description)
                 </td>
                 <td>
                     @*@Html.DisplayFor(ModelItem => item.ScheduledTime)*@
-                    @Convert.ToString(string.Format("{0:g}", Model.PlayList[i].ScheduledTime))
+                    @Convert.ToString(string.Format("{0:g}", Model[i].ScheduledTime))
                 </td>
                 <td>
-                    @Html.DisplayFor(m => m.PlayList[i].Actors)
+                    @Html.DisplayFor(m => m[i].Actors)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = Model.PlayList[i].Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = Model.PlayList[i].Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = Model.PlayList[i].Id })
+                    @Html.ActionLink("Edit", "Edit", new { id = Model[i].Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = Model[i].Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = Model[i].Id })
                 </td>
             </tr>
         }
 
     </table>
+    <br/>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pageSize = Model.PageSize}))
 }

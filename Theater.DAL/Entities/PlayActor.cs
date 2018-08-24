@@ -12,5 +12,6 @@ namespace Theater.DAL.Entities
         public int PlayId { get; set; }
 
         public virtual Play Play { get; set; }
+        public virtual Actor Actor { get; set; }
     }
 }
