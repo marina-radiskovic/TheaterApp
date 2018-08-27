@@ -33,6 +33,5 @@ namespace Theater.MVC.Models
         public string ActorsString { get; set; }
 
         public virtual IList<Actor> Actors { get; set; }
-
     }
 }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
+using Theater.DAL;
 using Theater.DAL.Entities;
 using Theater.DAL.Views;
 using Theater.MVC.Models;
@@ -22,16 +23,17 @@ namespace Theater.MVC.Controllers
         // GET: Play/Index
         public ActionResult Index(int? pageNumber)
         {
-            var playViewList = new PlaysListViewModel();
-            playViewList.PlayList = _playService.GetAllPlays();
-            foreach (var playView in playViewList.PlayList)
-            {
-                playView.ImageVirtualPath = string.Format("{0}{1}", WebConfigurationManager.AppSettings["appUrl"].ToString(), playView.ImageVirtualPath.ToString());
-            }
-
+            //var playViewList = new PlaysListViewModel();
+            //playViewList.PlayList = _playService.GetAllPlays();
+            //foreach (var playView in playViewList.PlayList)
+            //{
+            //    playView.ImageVirtualPath = string.Format("{0}{1}", WebConfigurationManager.AppSettings["appUrl"].ToString(), playView.ImageVirtualPath.ToString());
+            //}
             //PagedList<PlayView> model = new PagedList<PlayView>(playViewList.PlayList, pageNumber, pageSize);
-            int page = (pageNumber ?? 1);
-            return View(playViewList.PlayList.ToPagedList(page, 3));
+            
+                var modelList = _playService.GetPlayViewsToPagedList(pageNumber);
+                return View(modelList);
+
         }
 
         // GET: Play/AddNewPlay
@@ -62,7 +64,8 @@ namespace Theater.MVC.Controllers
                         ImageVirtualPath = virtualPath,
                         ImageType = Path.GetExtension(model.File.FileName),
                         Description = model.Description,
-                        ScheduledTime = model.ScheduledTime
+                        ScheduledTime = model.ScheduledTime,
+                        //Actors = model.Actors
                     };
                     _playService.InsertPlay(play);
                     return RedirectToAction("Index");

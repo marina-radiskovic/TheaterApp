@@ -1,5 +1,6 @@
 ﻿@model PagedList.IPagedList<Theater.DAL.Views.PlayView>
 @using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Index";
@@ -39,14 +40,12 @@
                     @Html.DisplayFor(m => m[i].Title)
                 </td>
                 <td>
-                    @*@Html.DisplayFor(ModelItem => item.ImagePath)*@
                     <img src="@Html.DisplayFor(m => m[i].ImageVirtualPath)" alt="Display image..." style="width:200px; height: 200px">
                 </td>
                 <td>
                     @Html.DisplayFor(m => m[i].Description)
                 </td>
                 <td>
-                    @*@Html.DisplayFor(ModelItem => item.ScheduledTime)*@
                     @Convert.ToString(string.Format("{0:g}", Model[i].ScheduledTime))
                 </td>
                 <td>
@@ -59,8 +58,7 @@
                 </td>
             </tr>
         }
-
     </table>
     <br/>
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pageSize = Model.PageSize}))
+    @Html.PagedListPager(Model, page => Url.Action("Index", new {page}))
 }

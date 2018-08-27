@@ -22,7 +22,7 @@ namespace Theater.MVC
             routes.MapRoute(
                 name: "PlayDefault",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Play", action = "Index", id = UrlParameter.Optional }
+            defaults: new { controller = "Play", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

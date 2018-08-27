@@ -29,6 +29,12 @@ namespace Theater.UnitTests.ServiceLayer
         public void User_Can_Get_All_Plays()
         {
             //Arrange
+            IList<Play> dummyPlays = new List<Play>();
+            for (int i=0; i<5; i++)
+            {
+                dummyPlays.Add(_testPlayRepository.GetDummyPlay());
+                _playIds.Add(dummyPlays[i].Id);
+            }
             IList<PlayView> allPlays;
 
             //Act
@@ -59,8 +65,14 @@ namespace Theater.UnitTests.ServiceLayer
         public void User_Can_Add_New_Play()
         {
             //Arrange
-            var play = _testPlayRepository.GetDummyPlay();
-            _playIds.Add(play.Id);
+            var play = new Play
+            {
+                Description = "description",
+                Title = "The title",
+                ScheduledTime = DateTime.Today,
+                Actors = new List<Actor>(),
+                ImagePath = "gghjkjbj"
+            };
 
             //Act
             _playService.InsertPlay(play);
