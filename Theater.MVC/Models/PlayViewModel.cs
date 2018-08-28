@@ -4,12 +4,19 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using Theater.DAL.Entities;
 
 namespace Theater.MVC.Models
 {
     public class PlayViewModel
     {
+        public PlayViewModel()
+        {
+            Actors = new List<Actor>();
+            SelectedActorsIds = new List<int>();
+        }
+
         public int Id { get; set; }
 
         [Required(ErrorMessage = "The title is required!")]
@@ -32,6 +39,8 @@ namespace Theater.MVC.Models
         public HttpPostedFileBase File { get; set; }
         public string ActorsString { get; set; }
 
-        public virtual IList<Actor> Actors { get; set; }
-    }
+        public IList<Actor> Actors { get; set; }
+       // [Required, MinLength(1, ErrorMessage = "Please pick actors for this play.")]
+        public List<int> SelectedActorsIds { get; set; }
+    } 
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Theater.DAL.DTO;
 using Theater.DAL.Entities;
 using Theater.DAL.Views;
 using Theater.Service.PlayService;
@@ -65,23 +66,24 @@ namespace Theater.UnitTests.ServiceLayer
         public void User_Can_Add_New_Play()
         {
             //Arrange
-            var play = new Play
+            var play = new PlayWithActors
             {
                 Description = "description",
                 Title = "The title",
                 ScheduledTime = DateTime.Today,
-                Actors = new List<Actor>(),
+                ImageVirtualPath = "whatever",
+                ImageType = "whateverrr",
                 ImagePath = "gghjkjbj"
             };
 
             //Act
-            _playService.InsertPlay(play);
-            _playIds.Add(play.Id);
-            var actual = _testPlayRepository.GetById(play.Id);
+            var playId = _playService.CreatePlay(play);
+            _playIds.Add(playId);
+            var actual = _testPlayRepository.GetById(playId);
 
             //Assert
             Assert.IsNotNull(actual);
-            Assert.AreEqual(play.Id, actual.Id);
+            Assert.AreEqual(playId, actual.Id);
             Assert.AreEqual(play.Title, actual.Title);
         }
 

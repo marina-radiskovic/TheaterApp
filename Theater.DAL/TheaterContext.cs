@@ -21,19 +21,19 @@ namespace Theater.DAL
 
         public DbSet<PlayView> PlayViews { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Play>()
-                .HasMany(a => a.Actors)
-                .WithMany(p => p.Plays)
-                .Map(m =>
-                {
-                    m.MapLeftKey("PlayId");
-                    m.MapRightKey("ActorId");
-                    m.ToTable("PlayActor");
-                });
-        }
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    base.OnModelCreating(modelBuilder);
+        //    modelBuilder.Entity<Play>()
+        //        .HasMany(a => a.Actors)
+        //        .WithMany(p => p.Plays)
+        //        .Map(m =>
+        //        {
+        //            m.MapLeftKey("PlayId");
+        //            m.MapRightKey("ActorId");
+        //            m.ToTable("PlayActor");
+        //        });
+        //}
 
     }
 }

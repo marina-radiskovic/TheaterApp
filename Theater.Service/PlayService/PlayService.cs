@@ -7,8 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Theater.DAL;
 using Theater.DAL.Entities;
+using Theater.DAL.DTO;
 using Theater.DAL.Views;
 using PagedList;
+using System.Web.Configuration;
+using System.IO;
 
 namespace Theater.Service.PlayService
 {
@@ -32,12 +35,34 @@ namespace Theater.Service.PlayService
             }
         }
 
-        public void InsertPlay(Play play)
+        public int CreatePlay(PlayWithActors playDTO)
         {
             using (var _unitOfWork = UnitOfWork.GetUnitOfWork())
             {
+                Play play = new Play
+                {
+                    Title = playDTO.Title,
+                    ImagePath = playDTO.ImagePath,
+                    ImageVirtualPath = playDTO.ImageVirtualPath,
+                    ImageType = playDTO.ImageType,
+                    Description = playDTO.Description,
+                    ScheduledTime = playDTO.ScheduledTime
+                };
+
                 _unitOfWork.PlayRepository.Insert(play);
+
+                foreach (var id in playDTO.ActorsIds)
+                {
+                    PlayActor playActor = new PlayActor
+                    {
+                        PlayId = play.Id,
+                        ActorId = id
+                    };
+                    _unitOfWork.PlayActorRepository.Insert(playActor);
+                }
+
                 _unitOfWork.Save();
+                return play.Id;
             }
         }
 
@@ -66,12 +91,12 @@ namespace Theater.Service.PlayService
             }
         }
 
-        public IPagedList<PlayView> GetPlayViewsToPagedList(int? pageNumber)
+        public IPagedList<PlayView> GetPlayViewsToPagedList(int? page)
         {
             using (var _unitOfWork = UnitOfWork.GetUnitOfWork())
             {
                 var list = (IEnumerable<PlayView>)_unitOfWork.context.PlayViews.OrderByDescending(x => x.ScheduledTime);
-                return list.ToPagedList((pageNumber ?? 1), 3);
+                return list.ToPagedList((page ?? 1), 10);
             }
         }
     }

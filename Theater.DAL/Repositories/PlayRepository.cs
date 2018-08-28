@@ -43,6 +43,8 @@ namespace Theater.DAL.Repositories
         public void Insert(Play entity)
         {
             context.Plays.Add(entity);
+
+            var playId = entity.Id;
         }
 
         public void Update(Play entity)

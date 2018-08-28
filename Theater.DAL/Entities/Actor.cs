@@ -15,8 +15,7 @@ namespace Theater.DAL.Entities
         public string LastName { get; set; }
 
         public virtual IList<Play> Plays { get; set; }
-
-       // [Display(Name = "Actors")]
+        
         public string FullName
         {
             get
