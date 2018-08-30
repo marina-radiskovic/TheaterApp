@@ -52,9 +52,7 @@
                     @Html.DisplayFor(m => m[i].Actors)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = Model[i].Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = Model[i].Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = Model[i].Id })
+                    @Html.ActionLink("Details", "Details", new { id = Model[i].Id })
                 </td>
             </tr>
         }

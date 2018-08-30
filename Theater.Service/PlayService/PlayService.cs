@@ -21,16 +21,14 @@ namespace Theater.Service.PlayService
         {
             using(var _unitOfWork = UnitOfWork.GetUnitOfWork())
             {
-                _unitOfWork.PlayRepository.DeleteById(id);
-                _unitOfWork.Save();
-            }
-        }
+                var playActorRecords = _unitOfWork.PlayActorRepository.GetPlayActorsForPlayId(id);
 
-        public void DeletePlay(Play play)
-        {
-            using (var _unitOfWork = UnitOfWork.GetUnitOfWork())
-            {
-                _unitOfWork.PlayRepository.Delete(play);
+                foreach (var playActorRecord in playActorRecords)
+                {
+                    _unitOfWork.PlayActorRepository.Delete(playActorRecord.Id);
+                }
+
+                _unitOfWork.PlayRepository.DeleteById(id);
                 _unitOfWork.Save();
             }
         }
@@ -66,11 +64,38 @@ namespace Theater.Service.PlayService
             }
         }
 
-        public void UpdatePlay(Play play)
+        public int UpdatePlay(PlayWithActors playDTO)
         {
             using (var _unitOfWork = UnitOfWork.GetUnitOfWork())
             {
-                _unitOfWork.PlayRepository.Update(play);
+                var play = _unitOfWork.PlayRepository.GetById(playDTO.Id);
+                
+                play.Title = playDTO.Title;
+                play.ImagePath = playDTO.ImagePath;
+                play.ImageVirtualPath = playDTO.ImageVirtualPath;
+                play.ImageType = playDTO.ImageType;
+                play.Description = playDTO.Description;
+                play.ScheduledTime = playDTO.ScheduledTime;
+
+                var playActorRecords = _unitOfWork.PlayActorRepository.GetPlayActorsForPlayId(play.Id);
+
+                foreach (var playActorRecord in playActorRecords)
+                {
+                    _unitOfWork.PlayActorRepository.Delete(playActorRecord.Id);
+                }
+
+                foreach (var id in playDTO.ActorsIds)
+                {
+                    PlayActor playActor = new PlayActor
+                    {
+                        PlayId = play.Id,
+                        ActorId = id
+                    };
+                    _unitOfWork.PlayActorRepository.Insert(playActor);
+                }
+
+                _unitOfWork.Save();
+                return play.Id;
             }
         }
 

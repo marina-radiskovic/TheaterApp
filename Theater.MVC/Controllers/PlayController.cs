@@ -23,21 +23,13 @@ namespace Theater.MVC.Controllers
         private readonly PlayService _playService = new PlayService();
         private readonly ActorService _actorService = new ActorService();
         private readonly PlayActorService _playActorService = new PlayActorService();
+        private readonly PlayViewService _playViewService = new PlayViewService();
 
         // GET: Play/Index
         public ActionResult Index(int? page)
         {
-            //var playViewList = new PlaysListViewModel();
-            //playViewList.PlayList = _playService.GetAllPlays();
-            //foreach (var playView in playViewList.PlayList)
-            //{
-            //    playView.ImageVirtualPath = string.Format("{0}{1}", WebConfigurationManager.AppSettings["appUrl"].ToString(), playView.ImageVirtualPath.ToString());
-            //}
-            //PagedList<PlayView> model = new PagedList<PlayView>(playViewList.PlayList, pageNumber, pageSize);
-            
-                var modelList = _playService.GetPlayViewsToPagedList(page);
-                return View(modelList);
-
+            var modelList = _playService.GetPlayViewsToPagedList(page);
+            return View(modelList);
         }
 
         // GET: Play/AddNewPlay
@@ -97,6 +89,121 @@ namespace Theater.MVC.Controllers
             }
         }
 
+        public ActionResult Edit(int id)
+        {
+            var playView = _playViewService.GetPlayView(id);
 
+            var model = new EditPlayViewModel
+            {
+                Id = playView.Id,
+                Title = playView.Title,
+                Description = playView.Description,
+                ScheduledTime = playView.ScheduledTime,
+                ActorsString = playView.Actors,
+                ImageVirtualPath = playView.ImageVirtualPath,
+                ImagePath = playView.ImagePath,
+                ImageType = playView.ImageType,
+                AllActors = _actorService.GetAllActors()
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(EditPlayViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentStatePlayView = _playViewService.GetPlayView(model.Id);
+                if (model.ScheduledTime == null)
+                {
+                    model.ScheduledTime = currentStatePlayView.ScheduledTime;
+                }
+                if (model.SelectedActorsIds.Count == 0)
+                {
+                    var playActorsList = _playActorService.GetPlayActorsForPlayId(model.Id);
+
+                    foreach (var playActorRecord in playActorsList)
+                    {
+                        model.SelectedActorsIds.Add(playActorRecord.ActorId);
+                    }
+                }
+
+                if (model.File != null)
+                {
+                    if (model.File.ContentLength > 0 && !model.File.ContentType.Contains("image"))
+                    {
+                        ModelState.AddModelError(nameof(PlayViewModel.File), "File must be image type!");
+                        model.AllActors = _actorService.GetAllActors();
+                        return View(model);
+                    }
+
+                    var imageFolderPath = Server.MapPath(WebConfigurationManager.AppSettings["imagePath"].ToString());
+                    var fileName = Guid.NewGuid().ToString();
+                    model.ImageVirtualPath = string.Format("{0}{1}{2}", WebConfigurationManager.AppSettings["virtualImagePath"].ToString(), fileName, Path.GetExtension(model.File.FileName).ToLower());
+                    model.ImagePath = string.Format("{0}{1}{2}", imageFolderPath, Path.GetFileName(fileName), Path.GetExtension(model.File.FileName).ToLower());
+                    model.File.SaveAs(model.ImagePath);
+
+                    PlayWithActors playWithActors = new PlayWithActors
+                    {
+                        Title = model.Title,
+                        ImagePath = model.ImagePath,
+                        ImageVirtualPath = model.ImageVirtualPath,
+                        ImageType = Path.GetExtension(model.File.FileName),
+                        Description = model.Description,
+                        ScheduledTime = model.ScheduledTime,
+                        ActorsIds = model.SelectedActorsIds
+                    };
+
+                    _playService.UpdatePlay(playWithActors);
+
+                    return RedirectToAction("Index");
+                }
+                else if (model.File == null)
+                {
+                    PlayWithActors playWithActors = new PlayWithActors
+                    {
+                        Id = model.Id,
+                        Title = model.Title,
+                        ImagePath = currentStatePlayView.ImagePath,
+                        ImageVirtualPath = currentStatePlayView.ImageVirtualPath,
+                        ImageType = currentStatePlayView.ImageType,
+                        Description = model.Description,
+                        ScheduledTime = model.ScheduledTime,
+                        ActorsIds = model.SelectedActorsIds
+                    };
+
+                    _playService.UpdatePlay(playWithActors);
+
+                    return RedirectToAction("Index");
+                }
+            }
+            model.ActorsString = _playViewService.GetPlayView(model.Id).Actors;
+            model.AllActors = _actorService.GetAllActors();
+            return View(model);
+        }
+
+        public ActionResult Details(int id)
+        {
+            var playView = _playViewService.GetPlayView(id);
+            var model = new PlayViewModel
+            {
+                Id = playView.Id,
+                Title = playView.Title,
+                Description = playView.Description,
+                ScheduledTime = playView.ScheduledTime,
+                ActorsString = playView.Actors,
+                ImageVirtualPath = playView.ImageVirtualPath
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+            _playService.DeletePlayById(id);
+            return Json(new { status = "success", redirectUrl = "/Play" });
+        }
     }
+    
 }

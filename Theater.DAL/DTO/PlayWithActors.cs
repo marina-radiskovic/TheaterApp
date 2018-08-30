@@ -14,6 +14,7 @@ namespace Theater.DAL.DTO
         {
             ActorsIds = new List<int>();
         }
+        public int Id { get; set; }
         public string Title { get; set; }
         public string ImagePath { get; set; }
         public string Description { get; set; }

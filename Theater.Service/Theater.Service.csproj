@@ -51,6 +51,7 @@
     <Compile Include="ActorService\ActorService.cs" />
     <Compile Include="PlayActorService\PlayActorService.cs" />
     <Compile Include="PlayService\PlayService.cs" />
+    <Compile Include="PlayService\PlayViewService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

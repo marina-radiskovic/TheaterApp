@@ -18,5 +18,13 @@ namespace Theater.Service.PlayActorService
                 _unitOfWork.Save();
             }   
         }
+
+        public IList<PlayActor> GetPlayActorsForPlayId(int id)
+        {
+            using (var _unitOfWork = UnitOfWork.GetUnitOfWork())
+            {
+                return _unitOfWork.PlayActorRepository.GetPlayActorsForPlayId(id);
+            }
+        }
     }
 }

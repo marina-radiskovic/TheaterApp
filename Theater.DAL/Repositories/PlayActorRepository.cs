@@ -9,7 +9,7 @@ namespace Theater.DAL.Repositories
 {
     public class PlayActorRepository
     {
-        TheaterContext context;
+        private TheaterContext context;
 
         public PlayActorRepository(TheaterContext context)
         {
@@ -19,6 +19,20 @@ namespace Theater.DAL.Repositories
         public void Insert(PlayActor playActorRecord)
         {
             context.PlayActors.Add(playActorRecord);
+        }
+
+        public IList<PlayActor> GetPlayActorsForPlayId(int id)
+        {
+            return context.PlayActors.Where(x => x.PlayId == id).ToList();
+        }
+
+        public void Delete(int id)
+        {
+            PlayActor playActor = context.PlayActors.Find(id);
+            if (playActor != null)
+            {
+                context.PlayActors.Remove(playActor);
+            }
         }
     }
 }

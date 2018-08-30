@@ -54,6 +54,7 @@
     <Compile Include="Entities\PlayActor.cs" />
     <Compile Include="Repositories\ActorRepository.cs" />
     <Compile Include="Repositories\PlayActorRepository.cs" />
+    <Compile Include="Repositories\PlayViewRepository.cs" />
     <Compile Include="TheaterContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\IRepository.cs" />

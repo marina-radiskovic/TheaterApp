@@ -159,6 +159,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\EditPlayViewModel.cs" />
     <Compile Include="Models\PlaysListViewModel.cs" />
     <Compile Include="Models\PlayViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -203,6 +204,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Play\Index.cshtml" />
     <Content Include="Views\Play\AddNewPlay.cshtml" />
+    <Content Include="Views\Play\Edit.cshtml" />
+    <Content Include="Views\Play\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
