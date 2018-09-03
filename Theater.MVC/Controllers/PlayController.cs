@@ -145,6 +145,7 @@ namespace Theater.MVC.Controllers
 
                     PlayWithActors playWithActors = new PlayWithActors
                     {
+                        Id = model.Id,
                         Title = model.Title,
                         ImagePath = model.ImagePath,
                         ImageVirtualPath = model.ImageVirtualPath,

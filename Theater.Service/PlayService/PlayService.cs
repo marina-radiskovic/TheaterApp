@@ -121,7 +121,7 @@ namespace Theater.Service.PlayService
             using (var _unitOfWork = UnitOfWork.GetUnitOfWork())
             {
                 var list = (IEnumerable<PlayView>)_unitOfWork.context.PlayViews.OrderByDescending(x => x.ScheduledTime);
-                return list.ToPagedList((page ?? 1), 10);
+                return list.ToPagedList((page ?? 1), 5);
             }
         }
     }
