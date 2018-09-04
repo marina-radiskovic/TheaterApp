@@ -46,13 +46,13 @@
                     @Html.DisplayFor(m => m[i].Description)
                 </td>
                 <td>
-                    @Convert.ToString(string.Format("{0:g}", Model[i].ScheduledTime))
+                    @Convert.ToString(string.Format("{0:dd-MMM-yyyy hh:mm tt}", Model[i].ScheduledTime))
                 </td>
                 <td>
                     @Html.DisplayFor(m => m[i].Actors)
                 </td>
                 <td>
-                    @Html.ActionLink("Details", "Details", new { id = Model[i].Id })
+                    @Html.ActionLink("Details", "Details", new { id = Model[i].PlayId })
                 </td>
             </tr>
         }

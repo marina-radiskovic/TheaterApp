@@ -20,5 +20,20 @@ namespace Theater.DAL.Repositories
         {
             return context.Actors.ToList();
         }
+
+        public Actor GetById(int id)
+        {
+            return context.Actors.Find(id);
+        }
+
+        public void InsertActor(Actor actor)
+        {
+            context.Actors.Add(actor);
+        }
+
+        public void DeleteActor(Actor actor)
+        {
+            context.Actors.Remove(actor);
+        }
     }
 }

@@ -33,8 +33,8 @@ namespace Theater.UnitTests.ServiceLayer
             IList<Play> dummyPlays = new List<Play>();
             for (int i=0; i<5; i++)
             {
-                dummyPlays.Add(_testPlayRepository.GetDummyPlay());
-                _playIds.Add(dummyPlays[i].Id);
+                dummyPlays.Add(_testPlayRepository.InsertDummyPlay());
+                _playIds.Add(dummyPlays[i].PlayId);
             }
             IList<PlayView> allPlays;
 
@@ -50,15 +50,15 @@ namespace Theater.UnitTests.ServiceLayer
         public void User_Can_Get_Play_By_Id()
         {
             //Arrange
-            var play = _testPlayRepository.GetDummyPlay();
+            var play = _testPlayRepository.InsertDummyPlay();
 
             //Act
-            var actual = _playService.GetPlay(play.Id);
-            _playIds.Add(play.Id);
+            var actual = _playService.GetPlay(play.PlayId);
+            _playIds.Add(play.PlayId);
 
             //Assert
             Assert.NotNull(actual);
-            Assert.AreEqual(play.Id, actual.Id);
+            Assert.AreEqual(play.PlayId, actual.PlayId);
             Assert.AreEqual(play.Description, actual.Description);
         }
 
@@ -83,7 +83,7 @@ namespace Theater.UnitTests.ServiceLayer
 
             //Assert
             Assert.IsNotNull(actual);
-            Assert.AreEqual(playId, actual.Id);
+            Assert.AreEqual(playId, actual.PlayId);
             Assert.AreEqual(play.Title, actual.Title);
         }
 
@@ -91,11 +91,11 @@ namespace Theater.UnitTests.ServiceLayer
         public void User_Can_Delete_By_Id()
         {
             //Arrange
-            var play = _testPlayRepository.GetDummyPlay();
+            var play = _testPlayRepository.InsertDummyPlay();
 
             //Act
-            _playService.DeletePlayById(play.Id);
-            var actual = _testPlayRepository.GetById(play.Id);
+            _playService.DeletePlayById(play.PlayId);
+            var actual = _testPlayRepository.GetById(play.PlayId);
 
             //Assert
             Assert.IsNull(actual);

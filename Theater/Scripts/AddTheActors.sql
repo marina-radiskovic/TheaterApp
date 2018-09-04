@@ -11,8 +11,8 @@ Post-Deployment Script Template
 */
 
 DELETE FROM Actor;
-INSERT INTO [dbo].[Actor] (Id, FirstName, LastName) VALUES (1, 'Petar', 'Jankovic');
-INSERT INTO [dbo].[Actor] (Id, FirstName, LastName) VALUES (2, 'Jovan', 'Gavrilovic');
-INSERT INTO [dbo].[Actor] (Id, FirstName, LastName) VALUES (3, 'Marija', 'Petrovic');
-INSERT INTO [dbo].[Actor] (Id, FirstName, LastName) VALUES (4, 'Nikolina', 'Iliskovic');
-INSERT INTO [dbo].[Actor] (Id, FirstName, LastName) VALUES (5, 'Lazar', 'Lukic');
+INSERT INTO [dbo].[Actor] (ActorId, FirstName, LastName) VALUES (1, 'Petar', 'Jankovic');
+INSERT INTO [dbo].[Actor] (ActorId, FirstName, LastName) VALUES (2, 'Jovan', 'Gavrilovic');
+INSERT INTO [dbo].[Actor] (ActorId, FirstName, LastName) VALUES (3, 'Marija', 'Petrovic');
+INSERT INTO [dbo].[Actor] (ActorId, FirstName, LastName) VALUES (4, 'Nikolina', 'Iliskovic');
+INSERT INTO [dbo].[Actor] (ActorId, FirstName, LastName) VALUES (5, 'Lazar', 'Lukic');

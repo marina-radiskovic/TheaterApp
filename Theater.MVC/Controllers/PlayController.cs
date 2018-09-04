@@ -13,7 +13,6 @@ using Theater.DAL.Views;
 using Theater.MVC.Models;
 using Theater.Service;
 using Theater.Service.ActorService;
-using Theater.Service.PlayActorService;
 using Theater.Service.PlayService;
 
 namespace Theater.MVC.Controllers
@@ -22,7 +21,7 @@ namespace Theater.MVC.Controllers
     {
         private readonly PlayService _playService = new PlayService();
         private readonly ActorService _actorService = new ActorService();
-        private readonly PlayActorService _playActorService = new PlayActorService();
+       
         private readonly PlayViewService _playViewService = new PlayViewService();
 
         // GET: Play/Index
@@ -95,7 +94,7 @@ namespace Theater.MVC.Controllers
 
             var model = new EditPlayViewModel
             {
-                Id = playView.Id,
+                Id = playView.PlayId,
                 Title = playView.Title,
                 Description = playView.Description,
                 ScheduledTime = playView.ScheduledTime,
@@ -114,19 +113,6 @@ namespace Theater.MVC.Controllers
             if (ModelState.IsValid)
             {
                 var currentStatePlayView = _playViewService.GetPlayView(model.Id);
-                if (model.ScheduledTime == null)
-                {
-                    model.ScheduledTime = currentStatePlayView.ScheduledTime;
-                }
-                if (model.SelectedActorsIds.Count == 0)
-                {
-                    var playActorsList = _playActorService.GetPlayActorsForPlayId(model.Id);
-
-                    foreach (var playActorRecord in playActorsList)
-                    {
-                        model.SelectedActorsIds.Add(playActorRecord.ActorId);
-                    }
-                }
 
                 if (model.File != null)
                 {
@@ -188,7 +174,7 @@ namespace Theater.MVC.Controllers
             var playView = _playViewService.GetPlayView(id);
             var model = new PlayViewModel
             {
-                Id = playView.Id,
+                Id = playView.PlayId,
                 Title = playView.Title,
                 Description = playView.Description,
                 ScheduledTime = playView.ScheduledTime,

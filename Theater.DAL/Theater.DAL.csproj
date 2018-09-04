@@ -51,9 +51,7 @@
     <Compile Include="DTO\PlayWithActors.cs" />
     <Compile Include="Entities\Actor.cs" />
     <Compile Include="Entities\Play.cs" />
-    <Compile Include="Entities\PlayActor.cs" />
     <Compile Include="Repositories\ActorRepository.cs" />
-    <Compile Include="Repositories\PlayActorRepository.cs" />
     <Compile Include="Repositories\PlayViewRepository.cs" />
     <Compile Include="TheaterContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

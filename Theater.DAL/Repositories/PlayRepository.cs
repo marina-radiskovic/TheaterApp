@@ -44,12 +44,12 @@ namespace Theater.DAL.Repositories
         {
             context.Plays.Add(entity);
 
-            var playId = entity.Id;
+           // var playId = entity.PlayId;
         }
 
         public void Update(Play entity)
         {
-            var play = context.Plays.Find(entity.Id);
+            var play = context.Plays.Find(entity.PlayId);
             context.Entry(entity).CurrentValues.SetValues(play);
         }
 

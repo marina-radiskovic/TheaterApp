@@ -23,11 +23,11 @@ namespace Theater.UnitTests.DAL
         public void User_Can_Add_New_Play_To_DB()
         {
             // Arrange
-            var play = _testPlayRepository.GetDummyPlay();
+            var play = _testPlayRepository.InsertDummyPlay();
 
             // Act
-            _playIds.Add(play.Id);
-            var actual = _testPlayRepository.GetById(play.Id);
+            _playIds.Add(play.PlayId);
+            var actual = _testPlayRepository.GetById(play.PlayId);
 
             // Assert
             Assert.NotNull(actual);
@@ -41,13 +41,13 @@ namespace Theater.UnitTests.DAL
         public void User_Can_Delete_Plays()
         {
             // Arrange
-            Play play = _testPlayRepository.GetDummyPlay();
+            Play play = _testPlayRepository.InsertDummyPlay();
 
             // Act
-            _testPlayRepository.DeleteById(play.Id);
+            _testPlayRepository.DeleteById(play.PlayId);
 
             // Assert
-            var actual = _testPlayRepository.GetById(play.Id);
+            var actual = _testPlayRepository.GetById(play.PlayId);
             Assert.IsNull(actual);
         }
 
@@ -55,24 +55,24 @@ namespace Theater.UnitTests.DAL
          public void User_Can_Update_Plays()
          {
              // Arrange
-             Play play = _testPlayRepository.GetDummyPlay();
+             Play play = _testPlayRepository.InsertDummyPlay();
              
              // Act
-             _playIds.Add(play.Id);
+             _playIds.Add(play.PlayId);
              play.Title = "UPDATED Title";
              _testPlayRepository.Update(play);
 
              // Assert
-             var actual = _testPlayRepository.GetById(play.Id);
+             var actual = _testPlayRepository.GetById(play.PlayId);
              Assert.AreNotEqual(actual.Title, play.Title);
              Assert.AreEqual(actual.Description, play.Description);
              Assert.AreEqual(actual.ScheduledTime, play.ScheduledTime);
          }
 
-         [TearDown]
-         public void CleanUp()
-         {
-                _testPlayRepository.Clean(_playIds);
-         }
+        [TearDown]
+        public void CleanUp()
+        {
+            _testPlayRepository.Clean(_playIds);
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core;
+using System.Linq;
 using Theater.DAL;
 using Theater.DAL.Entities;
 using Theater.DAL.Repositories;
@@ -9,6 +10,28 @@ namespace Theater.UnitTests.Repositories
 {
     class TestPlayRepository : IRepository<Play>
     {
+        public IList<Actor> insertedDummyActors = new List<Actor>();
+
+        public IList<Actor> InsertDummyActors()
+        {
+            using (var _unitOfWork = UnitOfWork.GetUnitOfWork())
+            {
+                var dummyActorsList = new List<Actor>
+                {
+                    new Actor{ActorId = 6, FirstName = "Goran", LastName = "Jevremovic"},
+                    new Actor{ActorId = 7, FirstName = "Nikola", LastName = "Stanimirovic"},
+                    new Actor{ActorId = 8, FirstName = "Andrea", LastName = "Joksimovic"}
+                };
+
+                foreach (var actor in dummyActorsList)
+                {
+                    _unitOfWork.ActorRepository.InsertActor(actor);
+                    _unitOfWork.Save();
+                    insertedDummyActors.Add(actor);
+                }
+                return insertedDummyActors;
+            }
+        }
 
         public void Delete(Play entity)
         {
@@ -25,6 +48,7 @@ namespace Theater.UnitTests.Repositories
             using(var _unitOfWork = UnitOfWork.GetUnitOfWork())
             {
                 _unitOfWork.context.Plays.Attach(_unitOfWork.PlayRepository.GetById(id));
+                _unitOfWork.PlayRepository.GetById(id).Actors.Clear();
                 _unitOfWork.PlayRepository.DeleteById(id);
                 _unitOfWork.Save();
             }
@@ -67,20 +91,22 @@ namespace Theater.UnitTests.Repositories
             }
         }
 
-        public Play GetDummyPlay()
+        public Play InsertDummyPlay()
         {
             using (var _unitOfWork = UnitOfWork.GetUnitOfWork())
             {
-                var dummyPlay = new Play();
-                dummyPlay.Description = "description";
-                dummyPlay.Title = "The title";
-                dummyPlay.ScheduledTime = DateTime.Today;
-                dummyPlay.Actors = new List<Actor>();
-                dummyPlay.ImagePath = "gghjkjbj";
+                var dummyPlay = new Play
+                {
+                    Description = "description",
+                    Title = "The title",
+                    ScheduledTime = DateTime.Today,
+                    ImagePath = "gghjkjbj",
+                    Actors = _unitOfWork.ActorRepository.GetAll()
+                };
 
                 _unitOfWork.PlayRepository.Insert(dummyPlay);
                 _unitOfWork.Save();
-                return _unitOfWork.PlayRepository.GetById(dummyPlay.Id);
+                return _unitOfWork.PlayRepository.GetById(dummyPlay.PlayId);
             }
         }
 
@@ -88,13 +114,21 @@ namespace Theater.UnitTests.Repositories
         {
             using(var _unitOfWork = UnitOfWork.GetUnitOfWork())
             {
-                foreach (var id in list)
+                foreach (var playId in list)
                 {
-                    _unitOfWork.context.Plays.Attach(_unitOfWork.PlayRepository.GetById(id));
-                    _unitOfWork.PlayRepository.DeleteById(id);
+                    var play = _unitOfWork.PlayRepository.GetById(playId);
+                    play.Actors.Clear();
+                    _unitOfWork.PlayRepository.Delete(play);
                     _unitOfWork.Save();
                 }
 
+                foreach (var actor in insertedDummyActors)
+                {
+                    _unitOfWork.context.Actors.Attach(actor);
+                    _unitOfWork.ActorRepository.DeleteActor(actor);
+                    _unitOfWork.Save();
+                }
+                insertedDummyActors.Clear();
                 list.Clear();
             }
         }

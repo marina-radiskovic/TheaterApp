@@ -17,5 +17,13 @@ namespace Theater.Service.ActorService
                 return _unitOfWork.ActorRepository.GetAll();
             }
         }
+
+        public Actor GetActorById(int id)
+        {
+            using (var _unitOfWork = UnitOfWork.GetUnitOfWork())
+            {
+                return _unitOfWork.ActorRepository.GetById(id);
+            }
+        }
     }
 }

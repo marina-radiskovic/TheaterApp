@@ -21,13 +21,7 @@ namespace Theater.Service.PlayService
         {
             using(var _unitOfWork = UnitOfWork.GetUnitOfWork())
             {
-                var playActorRecords = _unitOfWork.PlayActorRepository.GetPlayActorsForPlayId(id);
-
-                foreach (var playActorRecord in playActorRecords)
-                {
-                    _unitOfWork.PlayActorRepository.Delete(playActorRecord.Id);
-                }
-
+                _unitOfWork.PlayRepository.GetById(id).Actors.Clear();
                 _unitOfWork.PlayRepository.DeleteById(id);
                 _unitOfWork.Save();
             }
@@ -47,20 +41,15 @@ namespace Theater.Service.PlayService
                     ScheduledTime = playDTO.ScheduledTime
                 };
 
-                _unitOfWork.PlayRepository.Insert(play);
-
                 foreach (var id in playDTO.ActorsIds)
                 {
-                    PlayActor playActor = new PlayActor
-                    {
-                        PlayId = play.Id,
-                        ActorId = id
-                    };
-                    _unitOfWork.PlayActorRepository.Insert(playActor);
+                    play.Actors.Add(_unitOfWork.ActorRepository.GetById(id));
                 }
 
+                _unitOfWork.PlayRepository.Insert(play);
                 _unitOfWork.Save();
-                return play.Id;
+                
+                return play.PlayId;
             }
         }
 
@@ -70,32 +59,34 @@ namespace Theater.Service.PlayService
             {
                 var play = _unitOfWork.PlayRepository.GetById(playDTO.Id);
                 
+                if (playDTO.ScheduledTime == null)
+                {
+                    playDTO.ScheduledTime = play.ScheduledTime;
+                }
+
+                if (playDTO.ActorsIds.Count == 0)
+                {
+                    foreach (var actor in play.Actors)
+                    {
+                        playDTO.ActorsIds.Add(actor.ActorId);
+                    }
+                }
+
                 play.Title = playDTO.Title;
                 play.ImagePath = playDTO.ImagePath;
                 play.ImageVirtualPath = playDTO.ImageVirtualPath;
                 play.ImageType = playDTO.ImageType;
                 play.Description = playDTO.Description;
                 play.ScheduledTime = playDTO.ScheduledTime;
-
-                var playActorRecords = _unitOfWork.PlayActorRepository.GetPlayActorsForPlayId(play.Id);
-
-                foreach (var playActorRecord in playActorRecords)
-                {
-                    _unitOfWork.PlayActorRepository.Delete(playActorRecord.Id);
-                }
+                play.Actors.Clear();
 
                 foreach (var id in playDTO.ActorsIds)
                 {
-                    PlayActor playActor = new PlayActor
-                    {
-                        PlayId = play.Id,
-                        ActorId = id
-                    };
-                    _unitOfWork.PlayActorRepository.Insert(playActor);
+                    play.Actors.Add(_unitOfWork.ActorRepository.GetById(id));
                 }
 
                 _unitOfWork.Save();
-                return play.Id;
+                return play.PlayId;
             }
         }
 
@@ -112,7 +103,7 @@ namespace Theater.Service.PlayService
             using (var _unitOfWork = UnitOfWork.GetUnitOfWork())
             {
                 var play = _unitOfWork.context.PlayViews;
-                return play.OrderByDescending(x => x.Id).ToList();
+                return play.OrderByDescending(x => x.PlayId).ToList();
             }
         }
 

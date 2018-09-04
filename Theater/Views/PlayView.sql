@@ -6,8 +6,8 @@ SELECT p.*,
         (SELECT ', ' + a.FirstName + ' ' + a.LastName
             FROM
             Actor AS a
-			LEFT JOIN PlayActor AS pa ON pa.ActorId = a.Id
-            WHERE pa.PlayId = p.Id
+			LEFT JOIN PlayActor AS pa ON pa.ActorId = a.ActorId
+            WHERE pa.PlayId = p.PlayId
             FOR XML PATH('')
             ),1,1,''
        )) AS Actors

@@ -13,7 +13,7 @@ namespace Theater.DAL
         public TheaterContext context;
         public PlayRepository PlayRepository { get; private set; }
         public ActorRepository ActorRepository { get; private set; }
-        public PlayActorRepository PlayActorRepository { get; private set; }
+        
         public PlayViewRepository PlayViewRepository { get; private set; }
         private static UnitOfWork instance = null;
 
@@ -22,7 +22,7 @@ namespace Theater.DAL
             this.context = new TheaterContext();
             PlayRepository = new PlayRepository(context);
             ActorRepository = new ActorRepository(context);
-            PlayActorRepository = new PlayActorRepository(context);
+            
             PlayViewRepository = new PlayViewRepository(context);
         }
 

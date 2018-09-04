@@ -10,7 +10,9 @@ namespace Theater.DAL.Entities
     [Table("Actor", Schema = "dbo")]
     public class Actor
     {
-        public int Id { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int ActorId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
 

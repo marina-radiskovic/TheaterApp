@@ -11,7 +11,15 @@ namespace Theater.DAL.Entities
     [Table("Play", Schema = "dbo")]
     public class Play
     {
-        public int Id { get; set; }
+
+        public Play()
+        {
+            Actors = new List<Actor>();
+        }
+
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int PlayId { get; set; }
         public string Title { get; set; }
         public string ImagePath { get; set; }
         public string Description { get; set; }

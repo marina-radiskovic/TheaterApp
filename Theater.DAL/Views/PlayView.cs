@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,8 @@ namespace Theater.DAL.Views
     [Table("PlayView", Schema = "dbo")]
     public class PlayView
     {
-        public int Id { get; set; }
+        [Key]
+        public int PlayId { get; set; }
         public string Title { get; set; }
 
         [DisplayName("Photo")]
