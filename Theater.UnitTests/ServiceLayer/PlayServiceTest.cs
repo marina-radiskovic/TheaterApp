@@ -70,7 +70,7 @@ namespace Theater.UnitTests.ServiceLayer
             {
                 Description = "description",
                 Title = "The title",
-                ScheduledTime = DateTime.Today,
+                StartDate = DateTime.Today,
                 ImageVirtualPath = "whatever",
                 ImageType = "whateverrr",
                 ImagePath = "gghjkjbj"

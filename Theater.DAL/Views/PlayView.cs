@@ -21,11 +21,30 @@ namespace Theater.DAL.Views
         public string Description { get; set; }
         public string ImageVirtualPath { get; set; }
         public string ImageType { get; set; }
-
-        [DisplayName("Scheduled time")]
-        public DateTime? ScheduledTime { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public TimeSpan? Time { get; set; }
+        public TimeSpan? Duration { get; set; }
         public string Actors { get; set; }
+        public bool? Canceled { get; set; }
 
-        //public virtual IList<PlayActor> PlayActors { get; set; }
+        [DisplayName("Showing period")]
+        public string showingPeriod
+        {
+            get
+            {
+                return StartDate.Value.ToString("dd.MMM.yyyy.") + " - " + EndDate.Value.ToString("dd.MMM.yyyy.") + " at " + Time.Value.ToString(@"hh\:mm") + "h";
+            }
+        }
+
+        [DisplayName("Duration")]
+        public string durationString
+        {
+            get
+            {
+                return Duration.Value.ToString(@"hh\:mm") + "h";
+            }
+        }
+
     }
 }

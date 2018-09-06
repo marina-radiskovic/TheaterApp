@@ -25,7 +25,10 @@
                 @Html.DisplayNameFor(model => Model.First().Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => Model.First().ScheduledTime)
+                @Html.DisplayNameFor(model => Model.First().showingPeriod)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => Model.First().Duration)
             </th>
             <th>
                 @Html.DisplayNameFor(model => Model.First().Actors)
@@ -46,7 +49,16 @@
                     @Html.DisplayFor(m => m[i].Description)
                 </td>
                 <td>
-                    @Convert.ToString(string.Format("{0:dd-MMM-yyyy hh:mm tt}", Model[i].ScheduledTime))
+                    @if (Model[i].Canceled == true)
+                    {
+                        <p>CANCELED</p>
+                    } else
+                    {
+                        @Html.DisplayFor(m => m[i].showingPeriod)
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(m => m[i].durationString)
                 </td>
                 <td>
                     @Html.DisplayFor(m => m[i].Actors)

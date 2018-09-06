@@ -40,12 +40,65 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ScheduledTime, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.StartDate, "Start date", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Convert.ToString(string.Format("{0:dd-MMM-yyyy hh:mm tt}", Model.ScheduledTime))
-                @Html.EditorFor(model => model.ScheduledTime, new {Model.ScheduledTime, htmlAttributes = new { type = "datetime-local", @class = "form-control" } })
+                @if (Model.Canceled == true)
+                {
+                    <p>CANCELED</p>
+                    @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { type = "date", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                }
+                else
+                {
+                    @Convert.ToString(string.Format("{0:dd-MMM-yyyy}", Model.StartDate))
+                    @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { type = "date", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                }
+            </div>
+        </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.EndDate, "End date", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (Model.Canceled == true)
+                {
+                    <p>CANCELED</p>
+                    @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { type = "date", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                }
+                else
+                {
+                    @Convert.ToString(string.Format("{0:dd-MMM-yyyy}", Model.EndDate))
+                    @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { type = "date", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                }
+            </div>
+        </div>
 
-                @Html.ValidationMessageFor(model => model.ScheduledTime, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Time, "Scheduled time", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (Model.Canceled == true)
+                {
+                    <p>CANCELED</p>
+                    @Html.EditorFor(model => model.Time, new { htmlAttributes = new { type = "time", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Time, "", new { @class = "text-danger" })
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.Time)<span>h</span>
+                    @Html.EditorFor(model => model.Time, new { htmlAttributes = new { type = "time", @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Time, "", new { @class = "text-danger" })
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Duration)<span>h</span>
+                @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { type = "time", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -68,19 +121,18 @@
         @Html.EditorFor(model => model.ImagePath, new { Model.ImagePath, htmlAttributes = new { type = "hidden" } })
         @Html.EditorFor(model => model.ImageVirtualPath, new { Model.ImageVirtualPath, htmlAttributes = new { type = "hidden" } })
         @Html.EditorFor(model => model.ImageType, new { Model.ImageType, htmlAttributes = new { type = "hidden" } })
-        @Html.EditorFor(model => model.ScheduledTime, new { Model.ScheduledTime, htmlAttributes = new { type = "hidden" } })
-
 
         <div class="form-group">
             <div class="col-md-offset-4">
-                <input type="submit" value="Save changes" class="btn btn-default" />
-                @Html.ActionLink("Cancel", "Details", new { id = Model.Id }, new { role = "button", @class = "btn btn-default" })
+                <input type="submit" value="Save changes" class="btn btn-primary" />
+                @Html.ActionLink("Discard", "Details", new { id = Model.Id }, new { role = "button", @class = "btn btn-default" })
             </div>
         </div>
 
-
     </div>
 }
+<button class="btn btn-warning" id="postThis">Cancel play</button>
+
 @Scripts.Render("~/bundles/jquery")
 
 <script type="text/javascript">
@@ -102,3 +154,22 @@
     });
 </script>
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#postThis").click(function () {
+            if (window.confirm("Are you sure?")) {
+                $.ajax({
+                    url: '@Url.Action("Cancel", new { Model.Id})',
+                    data: { 'id': @Model.Id },
+                    type: "post",
+                    success: function (data) {
+                        if (data.status === 'success') {
+                            window.location.href = data.redirectUrl;
+                            alert("To uncancel the play, set it's start and end show date, as well as scheduled time.")
+                        }
+                    }
+                })
+            }
+        });
+    });
+</script>

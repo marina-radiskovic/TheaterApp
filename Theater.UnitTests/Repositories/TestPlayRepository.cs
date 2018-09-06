@@ -12,24 +12,16 @@ namespace Theater.UnitTests.Repositories
     {
         public IList<Actor> insertedDummyActors = new List<Actor>();
 
-        public IList<Actor> InsertDummyActors()
+        public void InsertDummyActors()
         {
             using (var _unitOfWork = UnitOfWork.GetUnitOfWork())
             {
-                var dummyActorsList = new List<Actor>
-                {
-                    new Actor{ActorId = 6, FirstName = "Goran", LastName = "Jevremovic"},
-                    new Actor{ActorId = 7, FirstName = "Nikola", LastName = "Stanimirovic"},
-                    new Actor{ActorId = 8, FirstName = "Andrea", LastName = "Joksimovic"}
-                };
-
-                foreach (var actor in dummyActorsList)
-                {
-                    _unitOfWork.ActorRepository.InsertActor(actor);
+                for (int i=1000; i<1005; i++) {
+                    var dummyActor = new Actor { ActorId = i, FirstName = "Goran", LastName = "Jevremovic" };
+                    _unitOfWork.ActorRepository.InsertActor(dummyActor);
                     _unitOfWork.Save();
-                    insertedDummyActors.Add(actor);
+                    insertedDummyActors.Add(dummyActor);
                 }
-                return insertedDummyActors;
             }
         }
 
@@ -95,15 +87,20 @@ namespace Theater.UnitTests.Repositories
         {
             using (var _unitOfWork = UnitOfWork.GetUnitOfWork())
             {
+                if (_unitOfWork.ActorRepository.GetAll() == null)
+                {
+                    InsertDummyActors();
+                }
+
                 var dummyPlay = new Play
                 {
                     Description = "description",
                     Title = "The title",
-                    ScheduledTime = DateTime.Today,
+                    StartDate = DateTime.Today,
                     ImagePath = "gghjkjbj",
                     Actors = _unitOfWork.ActorRepository.GetAll()
                 };
-
+                
                 _unitOfWork.PlayRepository.Insert(dummyPlay);
                 _unitOfWork.Save();
                 return _unitOfWork.PlayRepository.GetById(dummyPlay.PlayId);
@@ -118,7 +115,7 @@ namespace Theater.UnitTests.Repositories
                 {
                     var play = _unitOfWork.PlayRepository.GetById(playId);
                     play.Actors.Clear();
-                    _unitOfWork.PlayRepository.Delete(play);
+                    _unitOfWork.PlayRepository.DeleteById(playId);
                     _unitOfWork.Save();
                 }
 

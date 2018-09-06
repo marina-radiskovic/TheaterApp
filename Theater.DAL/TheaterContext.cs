@@ -17,7 +17,6 @@ namespace Theater.DAL
         }
         public DbSet<Actor> Actors { get; set; }
         public DbSet<Play> Plays { get; set; }
-     //   public DbSet<PlayActor> PlayActors { get; set; }
 
         public DbSet<PlayView> PlayViews { get; set; }
 

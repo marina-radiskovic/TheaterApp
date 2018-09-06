@@ -66,7 +66,10 @@ namespace Theater.MVC.Controllers
                         ImageVirtualPath = virtualPath,
                         ImageType = Path.GetExtension(model.File.FileName),
                         Description = model.Description,
-                        ScheduledTime = model.ScheduledTime,
+                        StartDate = model.StartDate,
+                        EndDate = model.EndDate,
+                        Time = model.Time,
+                        Duration = model.Duration,
                         ActorsIds = model.SelectedActorsIds
                     };
 
@@ -88,6 +91,7 @@ namespace Theater.MVC.Controllers
             }
         }
 
+        // GET: Play/Edit/{id}
         public ActionResult Edit(int id)
         {
             var playView = _playViewService.GetPlayView(id);
@@ -97,12 +101,16 @@ namespace Theater.MVC.Controllers
                 Id = playView.PlayId,
                 Title = playView.Title,
                 Description = playView.Description,
-                ScheduledTime = playView.ScheduledTime,
+                StartDate = playView.StartDate,
+                EndDate = playView.EndDate,
+                Time = playView.Time,
+                Duration = playView.Duration,
                 ActorsString = playView.Actors,
                 ImageVirtualPath = playView.ImageVirtualPath,
                 ImagePath = playView.ImagePath,
                 ImageType = playView.ImageType,
-                AllActors = _actorService.GetAllActors()
+                AllActors = _actorService.GetAllActors(),
+                Canceled = playView.Canceled
             };
             return View(model);
         }
@@ -137,7 +145,10 @@ namespace Theater.MVC.Controllers
                         ImageVirtualPath = model.ImageVirtualPath,
                         ImageType = Path.GetExtension(model.File.FileName),
                         Description = model.Description,
-                        ScheduledTime = model.ScheduledTime,
+                        StartDate = model.StartDate,
+                        EndDate = model.EndDate,
+                        Time = model.Time,
+                        Duration = model.Duration,
                         ActorsIds = model.SelectedActorsIds
                     };
 
@@ -155,7 +166,10 @@ namespace Theater.MVC.Controllers
                         ImageVirtualPath = currentStatePlayView.ImageVirtualPath,
                         ImageType = currentStatePlayView.ImageType,
                         Description = model.Description,
-                        ScheduledTime = model.ScheduledTime,
+                        StartDate = model.StartDate,
+                        EndDate = model.EndDate,
+                        Time = model.Time,
+                        Duration = model.Duration,
                         ActorsIds = model.SelectedActorsIds
                     };
 
@@ -169,6 +183,7 @@ namespace Theater.MVC.Controllers
             return View(model);
         }
 
+        // GET: Play/Details/{id}
         public ActionResult Details(int id)
         {
             var playView = _playViewService.GetPlayView(id);
@@ -177,9 +192,13 @@ namespace Theater.MVC.Controllers
                 Id = playView.PlayId,
                 Title = playView.Title,
                 Description = playView.Description,
-                ScheduledTime = playView.ScheduledTime,
+                StartDate = playView.StartDate,
                 ActorsString = playView.Actors,
-                ImageVirtualPath = playView.ImageVirtualPath
+                ImageVirtualPath = playView.ImageVirtualPath,
+                Canceled = playView.Canceled,
+                Duration = playView.Duration,
+                EndDate = playView.EndDate,
+                Time = playView.Time
             };
 
             return View(model);
@@ -189,6 +208,13 @@ namespace Theater.MVC.Controllers
         public ActionResult Delete(int id)
         {
             _playService.DeletePlayById(id);
+            return Json(new { status = "success", redirectUrl = "/Play" });
+        }
+
+        [HttpPost]
+        public ActionResult Cancel(int id)
+        {
+            _playService.CancelPlay(id);
             return Json(new { status = "success", redirectUrl = "/Play" });
         }
     }

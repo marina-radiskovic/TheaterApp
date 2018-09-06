@@ -31,9 +31,13 @@ namespace Theater.MVC.Models
 
         [DisplayName("Scheduled time")]
         [DisplayFormat(DataFormatString = "{0:g}")]
-        public DateTime? ScheduledTime { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public TimeSpan? Time { get; set; }
+        public TimeSpan? Duration { get; set; }
         public HttpPostedFileBase File { get; set; }
         public string ActorsString { get; set; }
+        public bool? Canceled { get; set; }
 
         public IList<int> CurrentActorsIds { get; set; }
         public IList<Actor> AllActors { get; set; }

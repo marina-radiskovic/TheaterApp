@@ -34,7 +34,7 @@ namespace Theater.UnitTests.DAL
             Assert.AreEqual(play.Description, actual.Description);
             Assert.AreEqual(play.Title, actual.Title);
             Assert.AreEqual(play.ImagePath, actual.ImagePath);
-            Assert.AreEqual(play.ScheduledTime, actual.ScheduledTime);
+            Assert.AreEqual(play.StartDate, actual.StartDate);
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace Theater.UnitTests.DAL
              var actual = _testPlayRepository.GetById(play.PlayId);
              Assert.AreNotEqual(actual.Title, play.Title);
              Assert.AreEqual(actual.Description, play.Description);
-             Assert.AreEqual(actual.ScheduledTime, play.ScheduledTime);
+             Assert.AreEqual(actual.StartDate, play.StartDate);
          }
 
         [TearDown]

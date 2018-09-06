@@ -30,14 +30,21 @@ namespace Theater.MVC.Models
         public string ImageVirtualPath { get; set; }
         public string ImageType { get; set; }
 
-        [DisplayName("Scheduled time")]
-        [DisplayFormat(DataFormatString = "{0:g}")]
+        [DisplayName("Start date")]
         [Required(ErrorMessage = "Scheduled time is required!")]
-        public DateTime? ScheduledTime { get; set; }
+        public DateTime? StartDate { get; set; }
+
+        [DisplayName("End date")]
+        public DateTime? EndDate { get; set; }
+
+        [DisplayName("Scheduled time")]
+        public TimeSpan? Time { get; set; }
+        public TimeSpan? Duration { get; set; }
 
         [Required(ErrorMessage = "Please upload photo")]
         public HttpPostedFileBase File { get; set; }
         public string ActorsString { get; set; }
+        public bool? Canceled { get; set; }
 
         public IList<Actor> Actors { get; set; }
         public List<int> SelectedActorsIds { get; set; }

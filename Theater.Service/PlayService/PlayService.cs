@@ -38,7 +38,10 @@ namespace Theater.Service.PlayService
                     ImageVirtualPath = playDTO.ImageVirtualPath,
                     ImageType = playDTO.ImageType,
                     Description = playDTO.Description,
-                    ScheduledTime = playDTO.ScheduledTime
+                    StartDate = playDTO.StartDate,
+                    EndDate = playDTO.EndDate,
+                    Time = playDTO.Time,
+                    Duration = playDTO.Duration
                 };
 
                 foreach (var id in playDTO.ActorsIds)
@@ -59,9 +62,34 @@ namespace Theater.Service.PlayService
             {
                 var play = _unitOfWork.PlayRepository.GetById(playDTO.Id);
                 
-                if (playDTO.ScheduledTime == null)
+                if (play.Canceled == true)
                 {
-                    playDTO.ScheduledTime = play.ScheduledTime;
+                    if(playDTO.StartDate != null && playDTO.EndDate != null && playDTO.Time != null)
+                    {
+                        playDTO.Canceled = false;
+                    }
+                }
+                else if(play.Canceled == false)
+                {
+                    if(playDTO.StartDate == null)
+                    {
+                        playDTO.StartDate = play.StartDate;
+                    }
+
+                    if(playDTO.EndDate == null)
+                    {
+                        playDTO.EndDate = play.EndDate;
+                    }
+
+                    if(playDTO.Time == null)
+                    {
+                        playDTO.Time = play.Time;
+                    }
+                }
+
+                if (playDTO.Duration == null)
+                {
+                    playDTO.Duration = play.Duration;
                 }
 
                 if (playDTO.ActorsIds.Count == 0)
@@ -77,7 +105,11 @@ namespace Theater.Service.PlayService
                 play.ImageVirtualPath = playDTO.ImageVirtualPath;
                 play.ImageType = playDTO.ImageType;
                 play.Description = playDTO.Description;
-                play.ScheduledTime = playDTO.ScheduledTime;
+                play.StartDate = playDTO.StartDate;
+                play.EndDate = playDTO.EndDate;
+                play.Time = playDTO.Time;
+                play.Duration = playDTO.Duration;
+                play.Canceled = playDTO.Canceled;
                 play.Actors.Clear();
 
                 foreach (var id in playDTO.ActorsIds)
@@ -111,8 +143,22 @@ namespace Theater.Service.PlayService
         {
             using (var _unitOfWork = UnitOfWork.GetUnitOfWork())
             {
-                var list = (IEnumerable<PlayView>)_unitOfWork.context.PlayViews.OrderByDescending(x => x.ScheduledTime);
+                var list = (IEnumerable<PlayView>)_unitOfWork.context.PlayViews.OrderBy(x => x.StartDate);
                 return list.ToPagedList((page ?? 1), 5);
+            }
+        }
+
+        public void CancelPlay(int id)
+        {
+            using (var _unitOfWork = UnitOfWork.GetUnitOfWork())
+            {
+                var play = _unitOfWork.PlayRepository.GetById(id);
+                play.Canceled = true;
+                play.EndDate = null;
+                play.StartDate = null;
+                play.Time = null;
+                
+                _unitOfWork.Save();
             }
         }
     }

@@ -25,7 +25,11 @@ namespace Theater.DAL.Entities
         public string Description { get; set; }
         public string ImageVirtualPath { get; set; }
         public string ImageType { get; set; }
-        public DateTime? ScheduledTime { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public TimeSpan? Time { get; set; }
+        public TimeSpan? Duration { get; set; }
+        public bool? Canceled { get; set; }
 
         public virtual IList<Actor> Actors { get; set; }
     }

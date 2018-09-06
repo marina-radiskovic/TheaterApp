@@ -20,8 +20,12 @@ namespace Theater.DAL.DTO
         public string Description { get; set; }
         public string ImageVirtualPath { get; set; }
         public string ImageType { get; set; }
-        public DateTime? ScheduledTime { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public TimeSpan? Time { get; set; }
+        public TimeSpan? Duration { get; set; }
         public HttpPostedFileBase File { get; set; }
+        public bool? Canceled { get; set; }
 
         public IList<int> ActorsIds { get; set; }
     }

@@ -32,12 +32,45 @@
             @Html.DisplayFor(model => model.Description)
         </dd>
 
+        @if(Model.Canceled == true)
+        {
+            <dd>
+                <p><b>CANCELED</b></p>
+            </dd>
+        }
+        else
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </dt>
+
+            <dd>
+                @Convert.ToString(string.Format("{0:dd-MMM-yyyy}", Model.StartDate))
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </dt>
+
+            <dd>
+                @Convert.ToString(string.Format("{0:dd-MMM-yyyy}", Model.EndDate))
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Time)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Time)<span> h</span>
+            </dd>
+        }
+
         <dt>
-            @Html.DisplayNameFor(model => model.ScheduledTime)
+            @Html.DisplayNameFor(model => model.Duration)
         </dt>
 
         <dd>
-            @Convert.ToString(string.Format("{0:dd-MMM-yyyy hh:mm tt}", Model.ScheduledTime))
+            @Html.DisplayFor(model => model.Duration)<span> h</span>
         </dd>
 
         <dt>
