@@ -16,7 +16,7 @@ namespace Theater.MVC.Models.Validation
             var play = context.Instance as PlayViewModel;
             var playService = new PlayService();
 
-            var taken = playService.PlayTimeTaken(play.StartDate, play.EndDate, play.Duration);
+            var taken = playService.PlayTimeTaken(play.StartDate, play.EndDate, play.Time, play.Duration);
             if (taken)
             {
                 return false;

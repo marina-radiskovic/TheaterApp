@@ -27,20 +27,30 @@ namespace Theater.Service.PlayService
             }
         }
 
-        public bool PlayTimeTaken(DateTime? startDate, DateTime? endDate, TimeSpan? duration)
+        public bool PlayTimeTaken(DateTime? startDate, DateTime? endDate, TimeSpan? time, TimeSpan? duration)
         {
             using(var _unitOfWork = UnitOfWork.GetUnitOfWork())
             {
                 //this list won't containt those plays that don't have StartDate or EndDate in particular
                 //range, but still overlap with play that has been submited
-                var plays = _unitOfWork.context.Plays.Where(x => x.StartDate >= startDate && x.StartDate <= endDate
-                                                           || x.EndDate >= startDate && x.EndDate <= endDate).ToList();
+                //var plays = _unitOfWork.context.Plays.Where(x => x.StartDate >= startDate && x.StartDate <= endDate
+                //                                           || x.EndDate >= startDate && x.EndDate <= endDate).ToList();
                 //this adds plays that don't have StartDate or EndDate in particular range, 
                 // but still overlap with the play that has been submitted
-                plays.AddRange(_unitOfWork.context.Plays.Where(x => x.EndDate >= endDate && x.StartDate <= startDate).ToList());
+                //plays.AddRange(_unitOfWork.context.Plays.Where(x => x.EndDate >= endDate && x.StartDate <= startDate).ToList());
 
-                return true;
+                var plays = _unitOfWork.context.Plays.Where(x => x.StartDate <= endDate && startDate <= x.EndDate).ToList();
 
+                foreach (var play in plays)
+                {
+                    var playEndTime = play.Time.Value.Add((TimeSpan)play.Duration);
+                    var submitedPlayEndTime = time.Value.Add((TimeSpan)duration);
+                    if(play.Time < submitedPlayEndTime && time < playEndTime)
+                    {
+                        return true;
+                    }
+                }
+                return false;
             }
         }
 
