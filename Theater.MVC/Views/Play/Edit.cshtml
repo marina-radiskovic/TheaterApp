@@ -17,7 +17,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Title, new {Model.Title, htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Title, new { Model.Title, htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -34,7 +34,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new {Model.Description, htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Description, new { Model.Description, htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -56,7 +56,7 @@
                 }
             </div>
         </div>
-        
+
         <div class="form-group">
             @Html.LabelFor(model => model.EndDate, "End date", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -131,9 +131,10 @@
 
     </div>
 }
-<button class="btn btn-warning" id="postThis">Cancel play</button> <span><div title="Confirm Box"></div></span>
+<button class="btn btn-warning" id="postThis">Cancel play</button>
+<div id="dialog-confirm" title="Confirm Box">
 
-@Scripts.Render("~/bundles/jquery")
+</div>
 
 <script type="text/javascript">
     function readURL(input) {
@@ -154,58 +155,37 @@
     });
 </script>
 
-@*<script type="text/javascript">
-    $(document).ready(function () {
-        $("#postThis").click(function () {
-            if (window.confirm("Are you sure?")) {
-                $.ajax({
-                    url: '@Url.Action("Cancel", new { Model.Id})',
-                    data: { 'id': @Model.Id },
-                    type: "post",
-                    success: function (data) {
-                        if (data.status === 'success') {
-                            window.location.href = data.redirectUrl;
-                            alert("To uncancel the play, set it's start and end show date, as well as scheduled time.")
-                        }
-                    }
-                })
-            }
-        });
-    });
-</script>*@
-
 <script>
+
     $(function () {
         $("#postThis").click(function (event) {
             event.preventDefault();
-            $('<div title="Confirm Box"></div>').dialog({
+            $("#dialog-confirm").dialog({
                 open: function (event, ui) {
-                    $(this).html("To uncancel the play you must set it's start and end dates again, as well as schedule time. /n/n/n Are you sure?");
-                },
-                close: function () {
-                    $(this).remove();
+                    $(this).html("To uncancel the play you must set it's start and end dates again, as well as schedule time. <br><br> Are you sure?");
                 },
                 resizable: false,
-                height: 140,
+                height: "auto",
+                width: 400,
                 modal: true,
                 buttons: {
-                    'Yes':
-                    $.ajax({
+                    "Yes": function () {
+                        $.ajax({
                         url: '@Url.Action("Cancel", new { Model.Id})',
                         data: { 'id': @Model.Id },
                         type: "post",
                         success: function (data) {
                             if (data.status === 'success') {
                                 window.location.href = data.redirectUrl;
-                                alert("To uncancel the play, set it's start and end show date, as well as scheduled time.")
                             }
-                        }
-                    }),
-                    'No': function () {
-                        $(this).dialog('close');
+                        }})
+                    },
+                    Cancel: function () {
+                        $(this).dialog("close");
                     }
-                },
+                }
             });
         });
+
     });
 </script>
