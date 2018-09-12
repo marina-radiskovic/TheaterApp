@@ -42,12 +42,6 @@ namespace Theater.MVC.Controllers
         [HttpPost]
         public ActionResult AddNewPlay(PlayViewModel model)
         {
-            if (model.SelectedActorsIds.Count == 0)
-            {
-                ModelState.AddModelError(nameof(PlayViewModel.SelectedActorsIds), "Please select actors for this play.");
-                model.Actors = _actorService.GetAllActors();
-                return View(model);
-            }
 
             if (ModelState.IsValid)
             {
@@ -120,63 +114,41 @@ namespace Theater.MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var currentStatePlayView = _playViewService.GetPlayView(model.Id);
+                var playWithActors = new PlayWithActors
+                {
+                    Id = model.Id,
+                    Title = model.Title,
+                    Description = model.Description,
+                    StartDate = model.StartDate,
+                    EndDate = model.EndDate,
+                    Time = model.Time,
+                    Duration = model.Duration,
+                    ActorsIds = model.SelectedActorsIds
+                };
 
                 if (model.File != null)
                 {
-                    if (model.File.ContentLength > 0 && !model.File.ContentType.Contains("image"))
-                    {
-                        ModelState.AddModelError(nameof(PlayViewModel.File), "File must be image type!");
-                        model.AllActors = _actorService.GetAllActors();
-                        return View(model);
-                    }
-
                     var imageFolderPath = Server.MapPath(WebConfigurationManager.AppSettings["imagePath"].ToString());
                     var fileName = Guid.NewGuid().ToString();
                     model.ImageVirtualPath = string.Format("{0}{1}{2}", WebConfigurationManager.AppSettings["virtualImagePath"].ToString(), fileName, Path.GetExtension(model.File.FileName).ToLower());
                     model.ImagePath = string.Format("{0}{1}{2}", imageFolderPath, Path.GetFileName(fileName), Path.GetExtension(model.File.FileName).ToLower());
                     model.File.SaveAs(model.ImagePath);
 
-                    PlayWithActors playWithActors = new PlayWithActors
-                    {
-                        Id = model.Id,
-                        Title = model.Title,
-                        ImagePath = model.ImagePath,
-                        ImageVirtualPath = model.ImageVirtualPath,
-                        ImageType = Path.GetExtension(model.File.FileName),
-                        Description = model.Description,
-                        StartDate = model.StartDate,
-                        EndDate = model.EndDate,
-                        Time = model.Time,
-                        Duration = model.Duration,
-                        ActorsIds = model.SelectedActorsIds
-                    };
-
-                    _playService.UpdatePlay(playWithActors);
-
-                    return RedirectToAction("Index");
+                    playWithActors.ImagePath = model.ImagePath;
+                    playWithActors.ImageVirtualPath = model.ImageVirtualPath;
+                    playWithActors.ImageType = Path.GetExtension(model.File.FileName);
                 }
                 else if (model.File == null)
                 {
-                    PlayWithActors playWithActors = new PlayWithActors
-                    {
-                        Id = model.Id,
-                        Title = model.Title,
-                        ImagePath = currentStatePlayView.ImagePath,
-                        ImageVirtualPath = currentStatePlayView.ImageVirtualPath,
-                        ImageType = currentStatePlayView.ImageType,
-                        Description = model.Description,
-                        StartDate = model.StartDate,
-                        EndDate = model.EndDate,
-                        Time = model.Time,
-                        Duration = model.Duration,
-                        ActorsIds = model.SelectedActorsIds
-                    };
+                    var currentStatePlayView = _playViewService.GetPlayView(model.Id);
 
-                    _playService.UpdatePlay(playWithActors);
-
-                    return RedirectToAction("Index");
+                    playWithActors.ImagePath = currentStatePlayView.ImagePath;
+                    playWithActors.ImageVirtualPath = currentStatePlayView.ImageVirtualPath;
+                    playWithActors.ImageType = currentStatePlayView.ImageType;
                 }
+                _playService.UpdatePlay(playWithActors);
+
+                return RedirectToAction("Index");
             }
             model.ActorsString = _playViewService.GetPlayView(model.Id).Actors;
             model.AllActors = _actorService.GetAllActors();
@@ -215,7 +187,7 @@ namespace Theater.MVC.Controllers
         public ActionResult Cancel(int id)
         {
             _playService.CancelPlay(id);
-            return Json(new { status = "success", redirectUrl = "/Play" });
+            return Json(new { status = "success", redirectUrl = string.Format("{0}{1}", "/Play/Details/", id) });
         }
     }
     

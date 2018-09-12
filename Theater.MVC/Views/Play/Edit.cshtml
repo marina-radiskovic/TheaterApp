@@ -131,7 +131,7 @@
 
     </div>
 }
-<button class="btn btn-warning" id="postThis">Cancel play</button>
+<button class="btn btn-warning" id="postThis">Cancel play</button> <span><div title="Confirm Box"></div></span>
 
 @Scripts.Render("~/bundles/jquery")
 
@@ -154,7 +154,7 @@
     });
 </script>
 
-<script type="text/javascript">
+@*<script type="text/javascript">
     $(document).ready(function () {
         $("#postThis").click(function () {
             if (window.confirm("Are you sure?")) {
@@ -170,6 +170,42 @@
                     }
                 })
             }
+        });
+    });
+</script>*@
+
+<script>
+    $(function () {
+        $("#postThis").click(function (event) {
+            event.preventDefault();
+            $('<div title="Confirm Box"></div>').dialog({
+                open: function (event, ui) {
+                    $(this).html("To uncancel the play you must set it's start and end dates again, as well as schedule time. /n/n/n Are you sure?");
+                },
+                close: function () {
+                    $(this).remove();
+                },
+                resizable: false,
+                height: 140,
+                modal: true,
+                buttons: {
+                    'Yes':
+                    $.ajax({
+                        url: '@Url.Action("Cancel", new { Model.Id})',
+                        data: { 'id': @Model.Id },
+                        type: "post",
+                        success: function (data) {
+                            if (data.status === 'success') {
+                                window.location.href = data.redirectUrl;
+                                alert("To uncancel the play, set it's start and end show date, as well as scheduled time.")
+                            }
+                        }
+                    }),
+                    'No': function () {
+                        $(this).dialog('close');
+                    }
+                },
+            });
         });
     });
 </script>

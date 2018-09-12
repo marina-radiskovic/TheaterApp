@@ -28,9 +28,6 @@
                 @Html.DisplayNameFor(model => Model.First().showingPeriod)
             </th>
             <th>
-                @Html.DisplayNameFor(model => Model.First().Duration)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => Model.First().Actors)
             </th>
             <th></th>
@@ -40,7 +37,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(m => m[i].Title)
+                    <b style="font-size: large;">@Html.DisplayFor(m => m[i].Title)</b>
                 </td>
                 <td>
                     <img src="@Html.DisplayFor(m => m[i].ImageVirtualPath)" alt="Display image..." style="width:200px; height: 200px">
@@ -56,9 +53,6 @@
                     {
                         @Html.DisplayFor(m => m[i].showingPeriod)
                     }
-                </td>
-                <td>
-                    @Html.DisplayFor(m => m[i].durationString)
                 </td>
                 <td>
                     @Html.DisplayFor(m => m[i].Actors)

@@ -27,6 +27,23 @@ namespace Theater.Service.PlayService
             }
         }
 
+        public bool PlayTimeTaken(DateTime? startDate, DateTime? endDate, TimeSpan? duration)
+        {
+            using(var _unitOfWork = UnitOfWork.GetUnitOfWork())
+            {
+                //this list won't containt those plays that don't have StartDate or EndDate in particular
+                //range, but still overlap with play that has been submited
+                var plays = _unitOfWork.context.Plays.Where(x => x.StartDate >= startDate && x.StartDate <= endDate
+                                                           || x.EndDate >= startDate && x.EndDate <= endDate).ToList();
+                //this adds plays that don't have StartDate or EndDate in particular range, 
+                // but still overlap with the play that has been submitted
+                plays.AddRange(_unitOfWork.context.Plays.Where(x => x.EndDate >= endDate && x.StartDate <= startDate).ToList());
+
+                return true;
+
+            }
+        }
+
         public int CreatePlay(PlayWithActors playDTO)
         {
             using (var _unitOfWork = UnitOfWork.GetUnitOfWork())
@@ -61,7 +78,8 @@ namespace Theater.Service.PlayService
             using (var _unitOfWork = UnitOfWork.GetUnitOfWork())
             {
                 var play = _unitOfWork.PlayRepository.GetById(playDTO.Id);
-                
+                playDTO.Canceled = play.Canceled;
+
                 if (play.Canceled == true)
                 {
                     if(playDTO.StartDate != null && playDTO.EndDate != null && playDTO.Time != null)
