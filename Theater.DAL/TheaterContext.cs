@@ -22,7 +22,7 @@ namespace Theater.DAL
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+           // base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Play>()
                 .HasMany(a => a.Actors)
                 .WithMany(p => p.Plays)
